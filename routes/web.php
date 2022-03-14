@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',"HomeController@index");
 
 Auth::routes();
 
-Route::get('/admin', 'Admin\HomeController@index')->name('admin.home');
+//Route::get('/admin', 'Admin\HomeController@index')->name('admin.home');
 
 
 //Queste informazioni in pratica servono alle rotte che potrei avere per evitare ridondanti specificazioni
@@ -30,3 +28,7 @@ Route::middleware("auth")->namespace("Admin")->prefix("admin")->name("admin.")
         Route::get('/posts','PostController@index')->name('post.index')->middleware('auth');
         Route::get('/products','ProductController@index')->name('product.edit')->middleware('auth');
 });
+
+Route::get("{any?}",function(){
+    return view("guest.home");
+})->where("any",".*");
